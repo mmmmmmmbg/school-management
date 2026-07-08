@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل دانش‌آموز</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- سایدبار -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-user-graduate"></i> پنل دانش‌آموز</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-section="profile" class="active"><i class="fas fa-user"></i> پروفایل</a></li>
+                <li><a href="#" data-section="reportCard"><i class="fas fa-file-alt"></i> کارنامه</a></li>
+                <li><a href="#" data-section="announcements"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a></li>
+                <li><a href="#" data-section="library"><i class="fas fa-book"></i> کتابخانه</a></li>
+                <li><a href="#" data-section="exams"><i class="fas fa-question-circle"></i> آزمون‌ها</a></li>
+                <li><a href="#" data-section="ai"><i class="fas fa-robot"></i> هوش مصنوعی</a></li>
+                <li><a href="#" onclick="Utils.logout()"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+            </ul>
+        </aside>
+
+        <!-- محتوای اصلی -->
+        <main class="main-content">
+            <div class="top-bar">
+                <h1 class="page-title">پنل دانش‌آموز</h1>
+                <span id="studentName"></span>
+            </div>
+
+            <!-- بخش پروفایل -->
+            <section id="profile" class="section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">اطلاعات کاربری</h3>
+                        <button class="btn btn-primary btn-sm" onclick="studentPanel.editProfile()">ویرایش</button>
+                    </div>
+                    <div class="grid grid-2">
+                        <div class="text-center" id="profileAvatar"></div>
+                        <div>
+                            <p><strong>نام:</strong> <span id="studentName"></span></p>
+                            <p><strong>کلاس:</strong> <span id="studentClass"></span></p>
+                            <p><strong>کد ملی:</strong> <span id="studentCode"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- بخش کارنامه -->
+            <section id="reportCard" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">کارنامه‌ها</h3></div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>تاریخ</th><th>دروس</th><th>نمرات</th><th>معدل</th></tr></thead>
+                            <tbody id="reportCardBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- بخش اطلاعیه‌ها -->
+            <section id="announcements" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">اطلاعیه‌ها</h3></div>
+                    <div id="announcementsList"></div>
+                </div>
+            </section>
+
+            <!-- بخش کتابخانه -->
+            <section id="library" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">کتابخانه</h3></div>
+                    <div class="grid grid-3" id="booksList"></div>
+                </div>
+            </section>
+
+            <!-- بخش آزمون‌ها -->
+            <section id="exams" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">آزمون‌ها</h3></div>
+                    <div id="examsList"></div>
+                </div>
+            </section>
+
+            <!-- بخش هوش مصنوعی -->
+            <section id="ai" class="section hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">دستیار هوشمند</h3>
+                        <div class="chat-actions">
+                            <button class="btn btn-sm btn-secondary" id="newChat"><i class="fas fa-plus"></i> جدید</button>
+                            <button class="btn btn-sm btn-danger" id="deleteHistory"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn btn-sm btn-primary" onclick="studentPanel.copyLastMessage()"><i class="fas fa-copy"></i> کپی</button>
+                        </div>
+                    </div>
+                    <div class="chat-container">
+                        <div class="chat-history" id="chatHistory"></div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chatInput" placeholder="سوال خود را بنویسید...">
+                            <button class="btn btn-primary" id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- مودال آزمون -->
+    <div class="modal" id="examModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>آزمون</h3>
+                <button class="modal-close" onclick="Utils.closeModal('examModal')">×</button>
+            </div>
+            <div id="examQuestions"></div>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/student.js"></script>
+</body>
+</html>

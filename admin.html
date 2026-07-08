@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیر</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-crown"></i> پنل مدیریت</h3>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-section="dashboard" class="active"><i class="fas fa-tachometer-alt"></i> داشبورد</a></li>
+                <li><a href="#" data-section="students"><i class="fas fa-users"></i> دانش‌آموزان</a></li>
+                <li><a href="#" data-section="teachers"><i class="fas fa-chalkboard-teacher"></i> معلمان</a></li>
+                <li><a href="#" data-section="announcements"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a></li>
+                <li><a href="#" data-section="exams"><i class="fas fa-question-circle"></i> آزمون‌ها</a></li>
+                <li><a href="#" data-section="library"><i class="fas fa-book"></i> کتابخانه</a></li>
+                <li><a href="#" data-section="settings"><i class="fas fa-cog"></i> تنظیمات</a></li>
+                <li><a href="#" onclick="Utils.logout()"><i class="fas fa-sign-out-alt"></i> خروج</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <!-- داشبورد -->
+            <section id="dashboard" class="section">
+                <div class="grid grid-3">
+                    <div class="card text-center">
+                        <i class="fas fa-user-graduate fa-2x text-primary"></i>
+                        <h3>دانش‌آموزان</h3>
+                        <p id="statStudents" class="font-bold">۰</p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-chalkboard-teacher fa-2x text-success"></i>
+                        <h3>معلمان</h3>
+                        <p id="statTeachers" class="font-bold">۰</p>
+                    </div>
+                    <div class="card text-center">
+                        <i class="fas fa-file-alt fa-2x text-warning"></i>
+                        <h3>آزمون‌ها</h3>
+                        <p id="statExams" class="font-bold">۰</p>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3" onclick="adminPanel.backupData()"><i class="fas fa-download"></i> تهیه نسخه پشتیبان</button>
+            </section>
+
+            <!-- دانش‌آموزان -->
+            <section id="students" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3>افزودن دانش‌آموز</h3></div>
+                    <div class="grid grid-2">
+                        <div class="form-group"><input type="text" id="studentNameInput" placeholder="نام و نام خانوادگی"></div>
+                        <div class="form-group"><input type="text" id="studentNationalCode" placeholder="کد ملی"></div>
+                        <div class="form-group"><input type="text" id="studentClassInput" placeholder="کلاس"></div>
+                        <div class="form-group"><input type="password" id="studentPassword" placeholder="رمز عبور (پیش‌فرض 123456)"></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="adminPanel.addStudent()">افزودن</button>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header"><h3>لیست دانش‌آموزان</h3></div>
+                    <table><thead><tr><th>نام</th><th>کد ملی</th><th>کلاس</th><th>عملیات</th></tr></thead>
+                    <tbody id="studentsTableBody"></tbody></table>
+                </div>
+            </section>
+
+            <!-- معلمان -->
+            <section id="teachers" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3>افزودن معلم</h3></div>
+                    <input type="text" id="teacherNameInput" placeholder="نام معلم" class="mb-1">
+                    <input type="text" id="teacherNationalCode" placeholder="کد ملی" class="mb-1">
+                    <input type="password" id="teacherPassword" placeholder="رمز عبور" class="mb-1">
+                    <button class="btn btn-primary" onclick="adminPanel.addTeacher()">افزودن</button>
+                </div>
+                <div class="card mt-3">
+                    <table><thead><tr><th>نام</th><th>کد ملی</th><th>عملیات</th></tr></thead>
+                    <tbody id="teachersTableBody"></tbody></table>
+                </div>
+            </section>
+
+            <!-- اطلاعیه‌ها -->
+            <section id="announcements" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3>اطلاعیه جدید</h3></div>
+                    <input type="text" id="announcementTitle" placeholder="عنوان" class="mb-1">
+                    <textarea id="announcementContent" placeholder="متن اطلاعیه"></textarea>
+                    <input type="text" id="announcementImage" placeholder="آدرس تصویر (اختیاری)" class="mb-1">
+                    <input type="text" id="announcementFile" placeholder="آدرس فایل (اختیاری)" class="mb-1">
+                    <button class="btn btn-primary" onclick="adminPanel.addAnnouncement()">انتشار</button>
+                </div>
+                <div id="announcementsAdminList" class="mt-3"></div>
+            </section>
+
+            <!-- آزمون‌ها -->
+            <section id="exams" class="section hidden">
+                <table><thead><tr><th>عنوان</th><th>معلم</th><th>سوالات</th><th>عملیات</th></tr></thead>
+                <tbody id="adminExamsBody"></tbody></table>
+            </section>
+
+            <!-- کتابخانه -->
+            <section id="library" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3>مدیریت کتابخانه</h3></div>
+                    <p>برای افزودن کتاب از پنل معلم یا همین بخش استفاده کنید.</p>
+                    <input type="text" id="adminBookTitle" placeholder="عنوان کتاب" class="mb-1">
+                    <input type="text" id="adminBookAuthor" placeholder="نویسنده" class="mb-1">
+                    <input type="file" id="adminBookFile" accept=".pdf" class="mb-1">
+                    <button class="btn btn-primary" onclick="AdminPanel.addBookAdmin()">افزودن کتاب</button>
+                </div>
+            </section>
+
+            <!-- تنظیمات -->
+            <section id="settings" class="section hidden">
+                <div class="card">
+                    <div class="card-header"><h3>تنظیمات API</h3></div>
+                    <div class="form-group">
+                        <label>Groq API Key</label>
+                        <input type="text" id="groqApiKey" placeholder="gsk_...">
+                    </div>
+                    <div class="form-group">
+                        <label>Mistral API Key</label>
+                        <input type="text" id="mistralApiKey">
+                    </div>
+                    <button class="btn btn-primary" onclick="adminPanel.saveSettings()">ذخیره</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- مودال کارنامه -->
+    <div class="modal" id="reportCardModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>کارنامه <span id="reportCardStudentName"></span></h3>
+                <button class="modal-close" onclick="Utils.closeModal('reportCardModal')">×</button>
+            </div>
+            <table><thead><tr><th>تاریخ</th><th>دروس</th><th>نمرات</th><th>معدل</th><th>حذف</th></tr></thead>
+            <tbody id="reportCardTableBody"></tbody></table>
+            <h4 class="mt-2">افزودن کارنامه جدید</h4>
+            <input type="text" id="coursesInput" placeholder="دروس (مثلاً ریاضی، فیزیک)" class="mb-1">
+            <input type="text" id="gradesInput" placeholder="نمرات (مثلاً 18، 20)" class="mb-1">
+            <input type="text" id="averageInput" placeholder="معدل" class="mb-1">
+            <button class="btn btn-success" id="saveReportCard">ثبت</button>
+        </div>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        // متدهای اضافی برای کتابخانه در پنل ادمین
+        AdminPanel.addBookAdmin = function() {
+            const title = document.getElementById('adminBookTitle').value;
+            const author = document.getElementById('adminBookAuthor').value;
+            const fileInput = document.getElementById('adminBookFile');
+            if (!title || !author) return Utils.showToast('عنوان و نویسنده الزامی است', 'error');
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const books = Utils.getFromLocal('books') || [];
+                books.push({
+                    id: Utils.generateId(),
+                    title: title,
+                    author: author,
+                    fileData: e.target.result,
+                    uploadedBy: 'admin',
+                    date: new Date().toISOString()
+                });
+                Utils.saveToLocal('books', books);
+                Utils.showToast('کتاب اضافه شد', 'success');
+            };
+            if (fileInput.files[0]) reader.readAsDataURL(fileInput.files[0]);
+        };
+    </script>
+</body>
+</html>

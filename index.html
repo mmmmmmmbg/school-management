@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود به سامانه مدیریت مدرسه</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2><i class="fas fa-school"></i> مدیریت مدرسه</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="nationalCode">کد ملی</label>
+                    <input type="text" id="nationalCode" placeholder="کد ملی خود را وارد کنید" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">رمز عبور</label>
+                    <input type="password" id="password" placeholder="رمز عبور" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-2">
+                    <i class="fas fa-sign-in-alt"></i> ورود
+                </button>
+            </form>
+            <p class="text-center mt-2" style="color: var(--secondary); font-size: 0.9rem;">
+                نسخه ۱.۰ - سامانه جامع مدیریت مدرسه
+            </p>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // راه‌اندازی اولیه کاربران پیش‌فرض
+        Auth.initDefaultUsers();
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nationalCode = document.getElementById('nationalCode').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!nationalCode || !password) {
+                Utils.showToast('لطفاً همه فیلدها را پر کنید', 'error');
+                return;
+            }
+
+            const result = Auth.login(nationalCode, password);
+            if (!result.success) {
+                Utils.showToast(result.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

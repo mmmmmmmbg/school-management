@@ -8,7 +8,7 @@ class Auth {
                 {
                     id: 'admin-001',
                     nationalCode: '1234567890',
-                    password: 'admin123',
+                    password: '789',
                     role: 'admin',
                     name: 'مدیر سیستم',
                     class: '',
@@ -17,7 +17,7 @@ class Auth {
                 {
                     id: 'teacher-001',
                     nationalCode: '0987654321',
-                    password: 'teacher123',
+                    password: '456',
                     role: 'teacher',
                     name: 'معلم نمونه',
                     class: '',
@@ -26,7 +26,7 @@ class Auth {
                 {
                     id: 'student-001',
                     nationalCode: '1111111111',
-                    password: 'student123',
+                    password: '123',
                     role: 'student',
                     name: 'دانش‌آموز نمونه',
                     class: 'دهم ریاضی',
